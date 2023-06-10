@@ -40,11 +40,11 @@ class PlayList:
         """
         playlist_id = self.playlist_id
         ch_info = youtube.playlistItems().list(playlistId=playlist_id,
-                                               part='contentDetails',
+                                               part='contentDetails,snippet',
                                                maxResults=50,
                                                ).execute()
 
-        ch_id = Channel(ch_info['items'][0]['snippet']['channelid'])
+        ch_id = Channel(ch_info['items'][0]['snippet']['channelId'])
         return ch_id.channel_id
 
     def name_pl(self) -> str:
@@ -85,7 +85,11 @@ class PlayList:
         like_id = 0
         url_vid = ''
         for i in PlayList.print_info(self)['items']:
-            vid = Video(i['contentDetails']['videoid'])
+            vid = Video(i['contentDetails']['videoId'])
             if like_id < int(vid.like):
                 like_id = int(vid.like)
+                url_vid = vid.url
         return url_vid
+
+
+

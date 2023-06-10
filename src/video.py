@@ -9,7 +9,7 @@ class Video:
     def __init__(self, video_id: str):
         self.video_id = video_id
         self.name: str = Video.print_info(self)['items'][0]['snippet']['title']
-        self.url: str = f"https://youtu.be/gaoc9MPZ4bw/{video_id}"
+        self.url: str = f"https://youtu.be/{video_id}"
         self.view: int = Video.print_info(self)['items'][0]['statistics']['viewCount']
         self.like: int = Video.print_info(self)['items'][0]['statistics']['likeCount']
 
