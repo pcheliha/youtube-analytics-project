@@ -8,10 +8,17 @@ youtube = build('youtube', 'v3', developerKey=api_key)
 class Video:
     def __init__(self, video_id: str):
         self.video_id = video_id
-        self.name: str = Video.print_info(self)['items'][0]['snippet']['title']
-        self.url: str = f"https://youtu.be/{video_id}"
-        self.view: int = Video.print_info(self)['items'][0]['statistics']['viewCount']
-        self.like: int = Video.print_info(self)['items'][0]['statistics']['likeCount']
+        if Video.print_info(self)['items'] == []:
+            try:
+                self.name: str = Video.print_info(self)['items'][0]['snippet']['title']
+                self.url: str = f"https://youtu.be/{video_id}"
+                self.view: int = Video.print_info(self)['items'][0]['statistics']['viewCount']
+                self.like: int = Video.print_info(self)['items'][0]['statistics']['likeCount']
+            except IndexError:
+                self.name = None
+                self.url = None
+                self.view = None
+                self.like = None
 
     def __repr__(self):
         return f'id - {self.video_id}'
@@ -26,8 +33,8 @@ class Video:
                                                ).execute()
         return video_response
 
+
 class PLVideo(Video):
     def __init__(self, video_id: str, plvideo_id: str):
         super().__init__(video_id)
         self.plvideo_id = plvideo_id
-
